@@ -1,0 +1,92 @@
+body {
+  background-color: #f4f5f7;
+  font-family: Arial, sans-serif;
+}
+
+.main-container {
+  max-width: 700px;
+  margin: 30px auto;
+}
+
+.top-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.top-nav button {
+  background: #e0e0e0;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #333;
+}
+
+.top-nav button.active {
+  background: #d8dee4;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.content-card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border: 1px solid #e1e4e8;
+  text-align: center;
+}
+
+.content-card h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-weight: 400;
+  color: #222;
+}
+
+.actions-bar {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+/* Botones */
+.btn-primary {
+  background-color: #60a5fa;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-secondary {
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  margin: 0 2px;
+}
+
+.patos-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.patos-table th, .patos-table td {
+  border: 1px solid #d1d5db;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.patos-table th {
+  background-color: #fafafa;
+  font-weight: bold;
+}
