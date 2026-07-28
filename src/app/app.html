@@ -7,51 +7,115 @@
       Ventas
     </button>
   </nav>
-@if (pestanaActiva === 'patos'){
-  <main class="content-card">
-    <h2>Tienda Patitos Maria</h2>
 
-    <div class="actions-bar">
-      <button class="btn-primary" (click)="abrirModalAgregar()">Agregar</button>
+  @if (mensaje) {
+    <div [class]="esError ? 'alert alert-danger' : 'alert alert-success'">
+      {{ mensaje }}
     </div>
+  }
 
-    <table class="patos-table">
-      <thead>
-        <tr>
-          <th>COLOR</th>
-          <th>TAMAÑO</th>
-          <th>STOCK</th>
-          <th>ACCIONES</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (pato of patos; track pato.id){
+  @if (pestanaActiva === 'patos') {
+    <main class="content-card">
+      <h2>Tienda Patitos María</h2>
+
+      <div class="actions-bar">
+        <button class="btn-primary" (click)="abrirModalAgregar()">Agregar Pato</button>
+      </div>
+
+      <table class="patos-table">
+        <thead>
           <tr>
-            <td>{{ pato.color }}</td>
-            <td>{{ pato.tamano }}</td>
-            <td>{{ pato.stock }}</td>
-            <td class="action-buttons">
-              <button class="btn-secondary" (click)="editarPato(pato)">
-                Editar
-              </button>
-              <button class="btn-secondary" (click)="eliminarPato(pato.id)">
-                Eliminar
-              </button>
-            </td>
+            <th>COLOR</th>
+            <th>TAMAÑO</th>
+            <th>PRECIO BASE</th>
+            <th>STOCK</th>
+            <th>ACCIONES</th>
           </tr>
-        }
-        
+        </thead>
+        <tbody>
+          @for (pato of patos; track pato.id) {
+            <tr>
+              <td>{{ pato.color }}</td>
+              <td>{{ pato.tamano }}</td>
+              <td>${{ pato.precioBase }}</td>
+              <td>{{ pato.stock }}</td>
+              <td class="action-buttons">
+                <button class="btn-secondary" (click)="editarPato(pato)">
+                  Editar
+                </button>
+                <button class="btn-secondary btn-danger" (click)="eliminarPato(pato.id)">
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5">No hay patos registrados en inventario.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </main>
+  }
 
-      </tbody>
-    </table>
-  </main>
-}
-  
-@if (pestanaActiva === 'ventas'){
-  <main class="content-card">
-    <h2>Gestión de Ventas</h2>
-    <p>Sección de registro de ventas y estados dinámicos.</p>
-  </main>
-}
-  
+  @if (pestanaActiva === 'ventas') {
+    <main class="content-card">
+      <h2>Gestión de Ventas</h2>
+      <form (ngSubmit)="realizarVenta()" style="max-width: 400px; margin: 20px auto;">
+        <div class="form-group">
+          <label>Seleccionar Pato:</label>
+          <select [(ngModel)]="ventaForm.patoId" name="patoId" required>
+            <option [value]="0">-- Selecciona un pato --</option>
+            @for (p of patos; track p.id) {
+              <option [value]="p.id">{{ p.color }} - {{ p.tamano }} (Stock: {{ p.stock }})</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-top: 10px;">
+          <label>Cantidad:</label>
+          <input type="number" [(ngModel)]="ventaForm.cantidad" name="cantidad" min="1" required>
+        </div>
+
+        <button type="submit" class="btn-primary" style="margin-top: 15px; width: 100%;">
+          Procesar Venta
+        </button>
+      </form>
+    </main>
+  }
+
+  @if (mostrarModal) {
+    <div class="modal-backdrop">
+      <div class="modal-content">
+        <h3>{{ patoForm.id ? 'Editar Pato' : 'Agregar Nuevo Pato' }}</h3>
+        <form (ngSubmit)="guardarPato()">
+          <div class="form-group">
+            <label>Color:</label>
+            <input type="text" [(ngModel)]="patoForm.color" name="color" required>
+          </div>
+          <div class="form-group">
+            <label>Tamaño:</label>
+            <select [(ngModel)]="patoForm.tamano" name="tamano" required>
+              <option value="PEQUENO">PEQUEÑO</option>
+              <option value="MEDIANO">MEDIANO (+20%)</option>
+              <option value="GRANDE">GRANDE (+50%)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Precio Base ($):</label>
+            <input type="number" step="0.01" [(ngModel)]="patoForm.precioBase" name="precioBase" required>
+          </div>
+          <div class="form-group">
+            <label>Stock / Cantidad:</label>
+            <input type="number" [(ngModel)]="patoForm.stock" name="stock" required>
+          </div>
+
+          <div class="modal-actions" style="margin-top: 15px; display: flex; gap: 10px;">
+            <button type="submit" class="btn-primary">Guardar</button>
+            <button type="button" class="btn-secondary" (click)="cerrarModal()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
 </div>
