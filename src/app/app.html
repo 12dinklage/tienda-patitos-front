@@ -7,8 +7,8 @@
       Ventas
     </button>
   </nav>
-
-  <main class="content-card" *ngIf="pestanaActiva === 'patos'">
+@if (pestanaActiva === 'patos'){
+  <main class="content-card">
     <h2>Tienda Patitos Maria</h2>
 
     <div class="actions-bar">
@@ -25,25 +25,33 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let pato of patos">
-          <td>{{ pato.color }}</td>
-          <td>{{ pato.tamano }}</td>
-          <td>{{ pato.stock }}</td>
-          <td class="action-buttons">
-            <button class="btn-secondary" (click)="editarPato(pato)">
-              ✏️ Editar
-            </button>
-            <button class="btn-secondary" (click)="eliminarPato(pato.id)">
-              🗑️ Eliminar
-            </button>
-          </td>
-        </tr>
+        @for (pato of patos; track pato.id){
+          <tr>
+            <td>{{ pato.color }}</td>
+            <td>{{ pato.tamano }}</td>
+            <td>{{ pato.stock }}</td>
+            <td class="action-buttons">
+              <button class="btn-secondary" (click)="editarPato(pato)">
+                Editar
+              </button>
+              <button class="btn-secondary" (click)="eliminarPato(pato.id)">
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        }
+        
+
       </tbody>
     </table>
   </main>
-
-  <main class="content-card" *ngIf="pestanaActiva === 'ventas'">
+}
+  
+@if (pestanaActiva === 'ventas'){
+  <main class="content-card">
     <h2>Gestión de Ventas</h2>
     <p>Sección de registro de ventas y estados dinámicos.</p>
   </main>
+}
+  
 </div>
