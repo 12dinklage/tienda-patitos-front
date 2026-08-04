@@ -1,7 +1,9 @@
 # TiendaPatitos
-
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.8.
-
+Frontend del proyecto
+This project was generated using [Angular CLI]version 22.0.8.
+Para ver el frontend pase por 
+Para ver el frontend pase por 
+https://github.com/12dinklage/tienda-patitos-back
 ## Development server
 
 To start a local development server, run:
