@@ -59,29 +59,7 @@
   }
 
   @if (pestanaActiva === 'ventas') {
-    <main class="content-card">
-      <h2>Gestión de Ventas</h2>
-      <form (ngSubmit)="realizarVenta()" style="max-width: 400px; margin: 20px auto;">
-        <div class="form-group">
-          <label>Seleccionar Pato:</label>
-          <select [(ngModel)]="ventaForm.patoId" name="patoId" required>
-            <option [value]="0">-- Selecciona un pato --</option>
-            @for (p of patos; track p.id) {
-              <option [value]="p.id">{{ p.color }} - {{ p.tamano }} (Stock: {{ p.stock }})</option>
-            }
-          </select>
-        </div>
-
-        <div class="form-group" style="margin-top: 10px;">
-          <label>Cantidad:</label>
-          <input type="number" [(ngModel)]="ventaForm.cantidad" name="cantidad" min="1" required>
-        </div>
-
-        <button type="submit" class="btn-primary" style="margin-top: 15px; width: 100%;">
-          Procesar Venta
-        </button>
-      </form>
-    </main>
+    <app-ventas></app-ventas>
   }
 
   @if (mostrarModal) {

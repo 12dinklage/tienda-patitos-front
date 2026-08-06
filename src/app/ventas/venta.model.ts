@@ -1,4 +1,9 @@
-export interface Venta {
+export interface VentaRequest {
+  patoId: number;
+  cantidad: number;
+  fechaEntregaProgramada?: string;
+}
+export interface VentaResponse {
   id?: number;
   patoId: number;
   cantidad: number;

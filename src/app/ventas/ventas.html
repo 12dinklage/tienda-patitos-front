@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>🛒 Gestión de Ventas</h2>
+  <h2>Gestión de Ventas</h2>
 
   @if (mensajeExito) {
   <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -15,10 +15,32 @@
   </div>
 }
 
+@if (ultimaVentaProcesada) {
+  <div class="card border-success mb-3">
+    <div class="card-header bg-success text-white font-weight-bold">
+      Resumen de Venta #{{ ultimaVentaProcesada.id }}
+    </div>
+    <div class="card-body">
+      <p class="card-text"><strong>Cantidad:</strong> {{ ultimaVentaProcesada.cantidad }}</p>
+      <h4 class="card-title text-success">
+        <strong>Precio Total:</strong> {{ ultimaVentaProcesada.precioTotal | currency:'USD':'symbol':'1.2-2' }}
+      </h4>
+    </div>
+  </div>
+}
+
   <form (ngSubmit)="realizarVenta()">
     <div>
-      <label for="patoId">ID del Pato:</label>
-      <input type="number" id="patoId" [(ngModel)]="nuevaVenta.patoId" name="patoId" required>
+      <label for="patoId">Seleccionar Pato:</label>
+      <select id="patoId" [(ngModel)]="nuevaVenta.patoId" name="patoId" required>
+        <option [ngValue]="0">-- Selecciona un pato --</option>
+        <option *ngFor="let p of patos" [ngValue]="p.id">{{ p.color }} - {{ p.tamano }} (Stock: {{ p.stock }})</option>
+      </select>
+    </div>
+
+    <div style="margin-top:8px">
+      <label for="fechaEntrega">Fecha entrega (opcional):</label>
+      <input id="fechaEntrega" type="datetime-local" [(ngModel)]="nuevaVenta.fechaEntregaProgramada" name="fechaEntregaProgramada">
     </div>
 
     <div>
@@ -26,28 +48,13 @@
       <input type="number" id="cantidad" [(ngModel)]="nuevaVenta.cantidad" name="cantidad" min="1" required>
     </div>
 
-    <button type="submit">Procesar Venta</button>
+    <div style="margin-top:10px">
+      <strong>Precio estimado: </strong>
+      <span *ngIf="nuevaVenta.patoId > 0">{{ calcularPrecioEstimado() | currency }}</span>
+      <span *ngIf="nuevaVenta.patoId <= 0">-</span>
+    </div>
+
+    <button type="submit" style="margin-top:8px">Procesar Venta</button>
   </form>
 
-  <hr>
-
-  <h3>Historial de Ventas</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>ID Venta</th>
-        <th>ID Pato</th>
-        <th>Cantidad</th>
-        <th>Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let venta of ventas">
-        <td>{{ venta.id }}</td>
-        <td>{{ venta.patoId }}</td>
-        <td>{{ venta.cantidad }}</td>
-        <td>{{ venta.precioTotal | currency }}</td>
-      </tr>
-    </tbody>
-  </table>
 </div>

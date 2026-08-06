@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Venta } from './venta.model';
+import { VentaRequest, VentaResponse } from './venta.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +11,11 @@ export class VentaService {
 
   constructor(private http: HttpClient) {}
 
-  registrarVenta(venta: Venta): Observable<Venta> {
-    return this.http.post<Venta>(this.apiUrl, venta);
+  registrarVenta(venta: VentaRequest): Observable<VentaResponse> {
+    return this.http.post<VentaResponse>(this.apiUrl, venta);
   }
 
-  obtenerVentas(): Observable<Venta[]> {
-    return this.http.get<Venta[]>(this.apiUrl);
+  obtenerVentas(): Observable<VentaResponse[]> {
+    return this.http.get<VentaResponse[]>(this.apiUrl);
   }
 }
