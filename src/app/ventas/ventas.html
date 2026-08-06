@@ -1,0 +1,53 @@
+<div class="container">
+  <h2>🛒 Gestión de Ventas</h2>
+
+  @if (mensajeExito) {
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ mensajeExito }}
+    <button type="button" class="btn-close" (click)="mensajeExito = ''" aria-label="Close"></button>
+  </div>
+}
+
+@if (mensajeError) {
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ mensajeError }}
+    <button type="button" class="btn-close" (click)="mensajeError = ''" aria-label="Close"></button>
+  </div>
+}
+
+  <form (ngSubmit)="realizarVenta()">
+    <div>
+      <label for="patoId">ID del Pato:</label>
+      <input type="number" id="patoId" [(ngModel)]="nuevaVenta.patoId" name="patoId" required>
+    </div>
+
+    <div>
+      <label for="cantidad">Cantidad:</label>
+      <input type="number" id="cantidad" [(ngModel)]="nuevaVenta.cantidad" name="cantidad" min="1" required>
+    </div>
+
+    <button type="submit">Procesar Venta</button>
+  </form>
+
+  <hr>
+
+  <h3>Historial de Ventas</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>ID Venta</th>
+        <th>ID Pato</th>
+        <th>Cantidad</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let venta of ventas">
+        <td>{{ venta.id }}</td>
+        <td>{{ venta.patoId }}</td>
+        <td>{{ venta.cantidad }}</td>
+        <td>{{ venta.precioTotal | currency }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
