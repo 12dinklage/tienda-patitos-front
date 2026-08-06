@@ -57,12 +57,21 @@ export class VentasComponent implements OnInit {
   }
   cargarVentas(): void {
     this.ventaService.obtenerVentas().subscribe({
-      next: (data) => (this.ventas = data),
-      error: () => (this.mensajeError = 'No se pudieron cargar las ventas.')
+      next: (data) => {
+        console.log('VentasComponent: ventas recibidas', data);
+        this.ventas = data || [];
+        try { this.cdr.detectChanges(); } catch (e) {}
+      },
+      error: (err) => {
+        console.error('VentasComponent: error cargando ventas', err);
+        this.mensajeError = 'No se pudieron cargar las ventas.';
+        try { this.cdr.detectChanges(); } catch (e) {}
+      }
     });
   }
 
   realizarVenta(): void {
+    console.log('VentasComponent: procesando venta', this.nuevaVenta);
     this.mensajeExito = '';
     this.mensajeError = '';
     this.ultimaVentaProcesada = undefined;
@@ -74,16 +83,20 @@ export class VentasComponent implements OnInit {
 
     this.ventaService.registrarVenta(this.nuevaVenta).subscribe({
       next: (res) => {
+        console.log('VentasComponent: venta procesada', res);
         this.ultimaVentaProcesada = res;
         const total = res.precioTotal ?? this.calcularPrecioEstimado();
         this.mensajeExito = `¡Venta registrada con éxito! Total a pagar: $${total}`;
+        this.patoService.notifyStockUpdated();
         this.nuevaVenta = { patoId: 0, cantidad: 1 };
-        
+        try { this.cdr.detectChanges(); } catch (e) {}
         this.cargarPatos();
         this.cargarVentas();
       },
       error: (err) => {
+        console.error('VentasComponent: error al procesar venta', err);
         this.mensajeError = err.error?.message || 'Error al procesar la venta.';
+        try { this.cdr.detectChanges(); } catch (e) {}
       }
     });
   }
